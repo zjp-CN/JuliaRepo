@@ -1,0 +1,195 @@
+<h1>Markdown</h1>
+<p>This section describes Julia&#39;s markdown syntax, which is enabled by the Markdown standard library. The following Markdown elements are supported:</p>
+<h2>Inline elements</h2>
+<p>Here &quot;inline&quot; refers to elements that can be found within blocks of text, i.e. paragraphs. These include the following elements.</p>
+<h3>Bold</h3>
+<p>Surround words with two asterisks, <code>**</code>, to display the enclosed text in boldface.</p>
+<pre><code>A paragraph containing a **bold** word.</code></pre>
+<h3>Italics</h3>
+<p>Surround words with one asterisk, <code>*</code>, to display the enclosed text in italics.</p>
+<pre><code>A paragraph containing an *emphasized* word.</code></pre>
+<h3>Literals</h3>
+<p>Surround text that should be displayed exactly as written with single backticks, <code>&#96;</code> .</p>
+<pre><code>A paragraph containing a &#96;literal&#96; word.</code></pre>
+<p>Literals should be used when writing text that refers to names of variables, functions, or other parts of a Julia program.</p>
+<div class="admonition tip"><p class="admonition-title">Tip</p><p>To include a backtick character within literal text use three backticks rather than one to enclose the text.</p>
+<pre><code>A paragraph containing a &#96;&#96;&#96; &#96;backtick&#96; character &#96;&#96;&#96;.</code></pre>
+<p>By extension any odd number of backticks may be used to enclose a lesser number of backticks.</p>
+</div>
+<h3>&#36;\LaTeX&#36;</h3>
+<p>Surround text that should be displayed as mathematics using &#36;\LaTeX&#36; syntax with double backticks, <code>&#96;&#96;</code> .</p>
+<pre><code>A paragraph containing some &#96;&#96;\LaTeX&#96;&#96; markup.</code></pre>
+<div class="admonition tip"><p class="admonition-title">Tip</p><p>As with literals in the previous section, if literal backticks need to be written within double backticks use an even number greater than two. Note that if a single literal backtick needs to be included within &#36;\LaTeX&#36; markup then two enclosing backticks is sufficient.</p>
+</div>
+<div class="admonition note"><p class="admonition-title">Note</p><p>The <code>\</code> character should be escaped appropriately if the text is embedded in a Julia source code, for example, <code>&quot;&#96;&#96;\\LaTeX&#96;&#96; syntax in a docstring.&quot;</code>, since it is interpreted as a string literal. Alternatively, in order to avoid escaping, it is possible to use the <code>raw</code> string macro together with the <code>@doc</code> macro:</p>
+<pre><code>@doc raw&quot;&#96;&#96;\LaTeX&#96;&#96; syntax in a docstring.&quot; functionname</code></pre>
+</div>
+<h3>Links</h3>
+<p>Links to either external or internal addresses can be written using the following syntax, where the text enclosed in square brackets, <code>&#91; &#93;</code>, is the name of the link and the text enclosed in parentheses, <code>&#40; &#41;</code>, is the URL.</p>
+<pre><code>A paragraph containing a link to &#91;Julia&#93;&#40;http://www.julialang.org&#41;.</code></pre>
+<p>It&#39;s also possible to add cross-references to other documented functions/methods/variables within the Julia documentation itself. For example:</p>
+<pre><code class="language-julia">&quot;&quot;&quot;
+    tryparse&#40;type, str; base&#41;
+
+Like &#91;&#96;parse&#96;&#93;&#40;@ref&#41;, but returns either a value of the requested type,
+or &#91;&#96;nothing&#96;&#93;&#40;@ref&#41; if the string does not contain a valid number.
+&quot;&quot;&quot;</code></pre>
+<p>This will create a link in the generated docs to the <a href="@ref"><code>parse</code></a> documentation &#40;which has more information about what this function actually does&#41;, and to the <a href="@ref"><code>nothing</code></a> documentation. It&#39;s good to include cross references to mutating/non-mutating versions of a function, or to highlight a difference between two similar-seeming functions.</p>
+<div class="admonition note"><p class="admonition-title">Note</p><p>The above cross referencing is <em>not</em> a Markdown feature, and relies on <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a>, which is used to build base Julia&#39;s documentation.</p>
+</div>
+<h3>Footnote references</h3>
+<p>Named and numbered footnote references can be written using the following syntax. A footnote name must be a single alphanumeric word containing no punctuation.</p>
+<pre><code>A paragraph containing a numbered footnote &#91;^1&#93; and a named one &#91;^named&#93;.</code></pre>
+<div class="admonition note"><p class="admonition-title">Note</p><p>The text associated with a footnote can be written anywhere within the same page as the footnote reference. The syntax used to define the footnote text is discussed in the <a href="@ref">Footnotes</a> section below.</p>
+</div>
+<h2>Toplevel elements</h2>
+<p>The following elements can be written either at the &quot;toplevel&quot; of a document or within another &quot;toplevel&quot; element.</p>
+<h3>Paragraphs</h3>
+<p>A paragraph is a block of plain text, possibly containing any number of inline elements defined in the <a href="@ref">Inline elements</a> section above, with one or more blank lines above and below it.</p>
+<pre><code>This is a paragraph.
+
+And this is *another* one containing some emphasized text.
+A new line, but still part of the same paragraph.</code></pre>
+<h3>Headers</h3>
+<p>A document can be split up into different sections using headers. Headers use the following syntax:</p>
+<pre><code class="language-julia"># Level One
+## Level Two
+### Level Three
+#### Level Four
+##### Level Five
+###### Level Six</code></pre>
+<p>A header line can contain any inline syntax in the same way as a paragraph can.</p>
+<div class="admonition tip"><p class="admonition-title">Tip</p><p>Try to avoid using too many levels of header within a single document. A heavily nested document may be indicative of a need to restructure it or split it into several pages covering separate topics.</p>
+</div>
+<h3>Code blocks</h3>
+<p>Source code can be displayed as a literal block using an indent of four spaces as shown in the following example.</p>
+<pre><code>This is a paragraph.
+
+    function func&#40;x&#41;
+        # ...
+    end
+
+Another paragraph.</code></pre>
+<p>Additionally, code blocks can be enclosed using triple backticks with an optional &quot;language&quot; to specify how a block of code should be highlighted.</p>
+<pre><code>A code block without a &quot;language&quot;:
+
+&#96;&#96;&#96;
+function func&#40;x&#41;
+    # ...
+end
+&#96;&#96;&#96;
+
+and another one with the &quot;language&quot; specified as &#96;julia&#96;:
+
+&#96;&#96;&#96;julia
+function func&#40;x&#41;
+    # ...
+end
+&#96;&#96;&#96;</code></pre>
+<div class="admonition note"><p class="admonition-title">Note</p><p>&quot;Fenced&quot; code blocks, as shown in the last example, should be preferred over indented code blocks since there is no way to specify what language an indented code block is written in.</p>
+</div>
+<h3>Block quotes</h3>
+<p>Text from external sources, such as quotations from books or websites, can be quoted using <code>&gt;</code> characters prepended to each line of the quote as follows.</p>
+<pre><code>Here&#39;s a quote:
+
+&gt; Julia is a high-level, high-performance dynamic programming language for
+&gt; technical computing, with syntax that is familiar to users of other
+&gt; technical computing environments.</code></pre>
+<p>Note that a single space must appear after the <code>&gt;</code> character on each line. Quoted blocks may themselves contain other toplevel or inline elements.</p>
+<h3>Images</h3>
+<p>The syntax for images is similar to the link syntax mentioned above. Prepending a <code>&#33;</code> character to a link will display an image from the specified URL rather than a link to it.</p>
+<pre><code class="language-julia">&#33;&#91;alternative text&#93;&#40;link/to/image.png&#41;</code></pre>
+<h3>Lists</h3>
+<p>Unordered lists can be written by prepending each item in a list with either <code>*</code>, <code>&#43;</code>, or <code>-</code>.</p>
+<pre><code>A list of items:
+
+  * item one
+  * item two
+  * item three</code></pre>
+<p>Note the two spaces before each <code>*</code> and the single space after each one.</p>
+<p>Lists can contain other nested toplevel elements such as lists, code blocks, or quoteblocks. A blank line should be left between each list item when including any toplevel elements within a list.</p>
+<pre><code>Another list:
+
+  * item one
+
+  * item two
+
+    &#96;&#96;&#96;
+    f&#40;x&#41; &#61; x
+    &#96;&#96;&#96;
+
+  * And a sublist:
+
+      &#43; sub-item one
+      &#43; sub-item two</code></pre>
+<div class="admonition note"><p class="admonition-title">Note</p><p>The contents of each item in the list must line up with the first line of the item. In the above example the fenced code block must be indented by four spaces to align with the <code>i</code> in <code>item two</code>.</p>
+</div>
+<p>Ordered lists are written by replacing the &quot;bullet&quot; character, either <code>*</code>, <code>&#43;</code>, or <code>-</code>, with a positive integer followed by either <code>.</code> or <code>&#41;</code>.</p>
+<pre><code>Two ordered lists:
+
+ 1. item one
+ 2. item two
+ 3. item three
+
+ 5&#41; item five
+ 6&#41; item six
+ 7&#41; item seven</code></pre>
+<p>An ordered list may start from a number other than one, as in the second list of the above example, where it is numbered from five. As with unordered lists, ordered lists can contain nested toplevel elements.</p>
+<h3>Display equations</h3>
+<p>Large &#36;\LaTeX&#36; equations that do not fit inline within a paragraph may be written as display equations using a fenced code block with the &quot;language&quot; <code>math</code> as in the example below.</p>
+<pre><code class="language-julia">&#96;&#96;&#96;math
+f&#40;a&#41; &#61; \frac&#123;1&#125;&#123;2\pi&#125;\int_&#123;0&#125;^&#123;2\pi&#125; &#40;\alpha&#43;R\cos&#40;\theta&#41;&#41;d\theta
+&#96;&#96;&#96;</code></pre>
+<h3>Footnotes</h3>
+<p>This syntax is paired with the inline syntax for <a href="@ref">Footnote references</a>. Make sure to read that section as well.</p>
+<p>Footnote text is defined using the following syntax, which is similar to footnote reference syntax, aside from the <code>:</code> character that is appended to the footnote label.</p>
+<pre><code>&#91;^1&#93;: Numbered footnote text.
+
+&#91;^note&#93;:
+
+    Named footnote text containing several toplevel elements.
+
+      * item one
+      * item two
+      * item three
+
+    &#96;&#96;&#96;julia
+    function func&#40;x&#41;
+        # ...
+    end
+    &#96;&#96;&#96;</code></pre>
+<div class="admonition note"><p class="admonition-title">Note</p><p>No checks are done during parsing to make sure that all footnote references have matching footnotes.</p>
+</div>
+<h3>Horizontal rules</h3>
+<p>The equivalent of an <code>&lt;hr&gt;</code> HTML tag can be written using the following syntax:</p>
+<pre><code>Text above the line.
+
+---
+
+And text below the line.</code></pre>
+<h3>Tables</h3>
+<p>Basic tables can be written using the syntax described below. Note that markdown tables have limited features and cannot contain nested toplevel elements unlike other elements discussed above – only inline elements are allowed. Tables must always contain a header row with column names. Cells cannot span multiple rows or columns of the table.</p>
+<pre><code>| Column One | Column Two | Column Three |
+|:---------- | ---------- |:------------:|
+| Row &#96;1&#96;    | Column &#96;2&#96; |              |
+| *Row* 2    | **Row** 2  | Column &#96;&#96;3&#96;&#96; |</code></pre>
+<div class="admonition note"><p class="admonition-title">Note</p><p>As illustrated in the above example each column of <code>|</code> characters must be aligned vertically.</p>
+<p>A <code>:</code> character on either end of a column&#39;s header separator &#40;the row containing <code>-</code> characters&#41; specifies whether the row is left-aligned, right-aligned, or &#40;when <code>:</code> appears on both ends&#41; center-aligned. Providing no <code>:</code> characters will default to right-aligning the column.</p>
+</div>
+<h3>Admonitions</h3>
+<p>Specially formatted blocks, known as admonitions, can be used to highlight particular remarks. They can be defined using the following <code>&#33;&#33;&#33;</code> syntax:</p>
+<pre><code>&#33;&#33;&#33; note
+
+    This is the content of the note.
+
+&#33;&#33;&#33; warning &quot;Beware&#33;&quot;
+
+    And this is another one.
+
+    This warning admonition has a custom title: &#96;&quot;Beware&#33;&quot;&#96;.</code></pre>
+<p>The type of the admonition can be any word, but some types produce special styling, namely &#40;in order of decreasing severity&#41;: <code>danger</code>, <code>warning</code>, <code>info</code>/<code>note</code>, and <code>tip</code>.</p>
+<p>A custom title for the box can be provided as a string &#40;in double quotes&#41; after the admonition type. If no title text is specified after the admonition type, then the title used will be the type of the block, i.e. <code>&quot;Note&quot;</code> in the case of the <code>note</code> admonition.</p>
+<p>Admonitions, like most other toplevel elements, can contain other toplevel elements.</p>
+<h2>Markdown Syntax Extensions</h2>
+<p>Julia&#39;s markdown supports interpolation in a very similar way to basic string literals, with the difference that it will store the object itself in the Markdown tree &#40;as opposed to converting it to a string&#41;. When the Markdown content is rendered the usual <code>show</code> methods will be called, and these can be overridden as usual. This design allows the Markdown to be extended with arbitrarily complex features &#40;such as references&#41; without cluttering the basic syntax.</p>
+<p>In principle, the Markdown parser itself can also be arbitrarily extended by packages, or an entirely custom flavour of Markdown can be used, but this should generally be unnecessary.</p>

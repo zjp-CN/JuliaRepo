@@ -1,0 +1,339 @@
+\section{Markdown}
+This section describes Julia's markdown syntax, which is enabled by the Markdown standard library. The following Markdown elements are supported:
+
+\subsection{Inline elements}
+Here "inline" refers to elements that can be found within blocks of text, i.e. paragraphs. These include the following elements.
+
+\subsubsection{Bold}
+Surround words with two asterisks, \texttt{**}, to display the enclosed text in boldface.
+
+\begin{verbatim}
+A paragraph containing a **bold** word.
+\end{verbatim}
+\subsubsection{Italics}
+Surround words with one asterisk, \texttt{*}, to display the enclosed text in italics.
+
+\begin{verbatim}
+A paragraph containing an *emphasized* word.
+\end{verbatim}
+\subsubsection{Literals}
+Surround text that should be displayed exactly as written with single backticks, \texttt{`} .
+
+\begin{verbatim}
+A paragraph containing a `literal` word.
+\end{verbatim}
+Literals should be used when writing text that refers to names of variables, functions, or other parts of a Julia program.
+
+\begin{quote}
+\textbf{tip}
+
+Tip
+
+To include a backtick character within literal text use three backticks rather than one to enclose the text.
+
+\begin{verbatim}
+A paragraph containing a ``` `backtick` character ```.
+\end{verbatim}
+By extension any odd number of backticks may be used to enclose a lesser number of backticks.
+
+\end{quote}
+\subsubsection{$\LaTeX$}
+Surround text that should be displayed as mathematics using $\LaTeX$ syntax with double backticks, \texttt{``} .
+
+\begin{verbatim}
+A paragraph containing some ``\LaTeX`` markup.
+\end{verbatim}
+\begin{quote}
+\textbf{tip}
+
+Tip
+
+As with literals in the previous section, if literal backticks need to be written within double backticks use an even number greater than two. Note that if a single literal backtick needs to be included within $\LaTeX$ markup then two enclosing backticks is sufficient.
+
+\end{quote}
+\begin{quote}
+\textbf{note}
+
+Note
+
+The \texttt{{\textbackslash}} character should be escaped appropriately if the text is embedded in a Julia source code, for example, \texttt{"``{\textbackslash}{\textbackslash}LaTeX`` syntax in a docstring."}, since it is interpreted as a string literal. Alternatively, in order to avoid escaping, it is possible to use the \texttt{raw} string macro together with the \texttt{@doc} macro:
+
+\begin{verbatim}
+@doc raw"``\LaTeX`` syntax in a docstring." functionname
+\end{verbatim}
+\end{quote}
+\subsubsection{Links}
+Links to either external or internal addresses can be written using the following syntax, where the text enclosed in square brackets, \texttt{[ ]}, is the name of the link and the text enclosed in parentheses, \texttt{( )}, is the URL.
+
+\begin{verbatim}
+A paragraph containing a link to [Julia](http://www.julialang.org).
+\end{verbatim}
+It's also possible to add cross-references to other documented functions/methods/variables within the Julia documentation itself. For example:
+
+\begin{verbatim}
+"""
+    tryparse(type, str; base)
+
+Like [`parse`](@ref), but returns either a value of the requested type,
+or [`nothing`](@ref) if the string does not contain a valid number.
+"""
+\end{verbatim}
+This will create a link in the generated docs to the \href{@ref}{\texttt{parse}} documentation (which has more information about what this function actually does), and to the \href{@ref}{\texttt{nothing}} documentation. It's good to include cross references to mutating/non-mutating versions of a function, or to highlight a difference between two similar-seeming functions.
+
+\begin{quote}
+\textbf{note}
+
+Note
+
+The above cross referencing is \emph{not} a Markdown feature, and relies on \href{https://github.com/JuliaDocs/Documenter.jl}{Documenter.jl}, which is used to build base Julia's documentation.
+
+\end{quote}
+\subsubsection{Footnote references}
+Named and numbered footnote references can be written using the following syntax. A footnote name must be a single alphanumeric word containing no punctuation.
+
+\begin{verbatim}
+A paragraph containing a numbered footnote [^1] and a named one [^named].
+\end{verbatim}
+\begin{quote}
+\textbf{note}
+
+Note
+
+The text associated with a footnote can be written anywhere within the same page as the footnote reference. The syntax used to define the footnote text is discussed in the \href{@ref}{Footnotes} section below.
+
+\end{quote}
+\subsection{Toplevel elements}
+The following elements can be written either at the "toplevel" of a document or within another "toplevel" element.
+
+\subsubsection{Paragraphs}
+A paragraph is a block of plain text, possibly containing any number of inline elements defined in the \href{@ref}{Inline elements} section above, with one or more blank lines above and below it.
+
+\begin{verbatim}
+This is a paragraph.
+
+And this is *another* one containing some emphasized text.
+A new line, but still part of the same paragraph.
+\end{verbatim}
+\subsubsection{Headers}
+A document can be split up into different sections using headers. Headers use the following syntax:
+
+\begin{verbatim}
+# Level One
+## Level Two
+### Level Three
+#### Level Four
+##### Level Five
+###### Level Six
+\end{verbatim}
+A header line can contain any inline syntax in the same way as a paragraph can.
+
+\begin{quote}
+\textbf{tip}
+
+Tip
+
+Try to avoid using too many levels of header within a single document. A heavily nested document may be indicative of a need to restructure it or split it into several pages covering separate topics.
+
+\end{quote}
+\subsubsection{Code blocks}
+Source code can be displayed as a literal block using an indent of four spaces as shown in the following example.
+
+\begin{verbatim}
+This is a paragraph.
+
+    function func(x)
+        # ...
+    end
+
+Another paragraph.
+\end{verbatim}
+Additionally, code blocks can be enclosed using triple backticks with an optional "language" to specify how a block of code should be highlighted.
+
+\begin{verbatim}
+A code block without a "language":
+
+```
+function func(x)
+    # ...
+end
+```
+
+and another one with the "language" specified as `julia`:
+
+```julia
+function func(x)
+    # ...
+end
+```
+\end{verbatim}
+\begin{quote}
+\textbf{note}
+
+Note
+
+"Fenced" code blocks, as shown in the last example, should be preferred over indented code blocks since there is no way to specify what language an indented code block is written in.
+
+\end{quote}
+\subsubsection{Block quotes}
+Text from external sources, such as quotations from books or websites, can be quoted using \texttt{>} characters prepended to each line of the quote as follows.
+
+\begin{verbatim}
+Here's a quote:
+
+> Julia is a high-level, high-performance dynamic programming language for
+> technical computing, with syntax that is familiar to users of other
+> technical computing environments.
+\end{verbatim}
+Note that a single space must appear after the \texttt{>} character on each line. Quoted blocks may themselves contain other toplevel or inline elements.
+
+\subsubsection{Images}
+The syntax for images is similar to the link syntax mentioned above. Prepending a \texttt{!} character to a link will display an image from the specified URL rather than a link to it.
+
+\begin{verbatim}
+![alternative text](link/to/image.png)
+\end{verbatim}
+\subsubsection{Lists}
+Unordered lists can be written by prepending each item in a list with either \texttt{*}, \texttt{+}, or \texttt{-}.
+
+\begin{verbatim}
+A list of items:
+
+  * item one
+  * item two
+  * item three
+\end{verbatim}
+Note the two spaces before each \texttt{*} and the single space after each one.
+
+Lists can contain other nested toplevel elements such as lists, code blocks, or quoteblocks. A blank line should be left between each list item when including any toplevel elements within a list.
+
+\begin{verbatim}
+Another list:
+
+  * item one
+
+  * item two
+
+    ```
+    f(x) = x
+    ```
+
+  * And a sublist:
+
+      + sub-item one
+      + sub-item two
+\end{verbatim}
+\begin{quote}
+\textbf{note}
+
+Note
+
+The contents of each item in the list must line up with the first line of the item. In the above example the fenced code block must be indented by four spaces to align with the \texttt{i} in \texttt{item two}.
+
+\end{quote}
+Ordered lists are written by replacing the "bullet" character, either \texttt{*}, \texttt{+}, or \texttt{-}, with a positive integer followed by either \texttt{.} or \texttt{)}.
+
+\begin{verbatim}
+Two ordered lists:
+
+ 1. item one
+ 2. item two
+ 3. item three
+
+ 5) item five
+ 6) item six
+ 7) item seven
+\end{verbatim}
+An ordered list may start from a number other than one, as in the second list of the above example, where it is numbered from five. As with unordered lists, ordered lists can contain nested toplevel elements.
+
+\subsubsection{Display equations}
+Large $\LaTeX$ equations that do not fit inline within a paragraph may be written as display equations using a fenced code block with the "language" \texttt{math} as in the example below.
+
+\begin{verbatim}
+```math
+f(a) = \frac{1}{2\pi}\int_{0}^{2\pi} (\alpha+R\cos(\theta))d\theta
+```
+\end{verbatim}
+\subsubsection{Footnotes}
+This syntax is paired with the inline syntax for \href{@ref}{Footnote references}. Make sure to read that section as well.
+
+Footnote text is defined using the following syntax, which is similar to footnote reference syntax, aside from the \texttt{:} character that is appended to the footnote label.
+
+\begin{verbatim}
+[^1]: Numbered footnote text.
+
+[^note]:
+
+    Named footnote text containing several toplevel elements.
+
+      * item one
+      * item two
+      * item three
+
+    ```julia
+    function func(x)
+        # ...
+    end
+    ```
+\end{verbatim}
+\begin{quote}
+\textbf{note}
+
+Note
+
+No checks are done during parsing to make sure that all footnote references have matching footnotes.
+
+\end{quote}
+\subsubsection{Horizontal rules}
+The equivalent of an \texttt{<hr>} HTML tag can be written using the following syntax:
+
+\begin{verbatim}
+Text above the line.
+
+---
+
+And text below the line.
+\end{verbatim}
+\subsubsection{Tables}
+Basic tables can be written using the syntax described below. Note that markdown tables have limited features and cannot contain nested toplevel elements unlike other elements discussed above – only inline elements are allowed. Tables must always contain a header row with column names. Cells cannot span multiple rows or columns of the table.
+
+\begin{verbatim}
+| Column One | Column Two | Column Three |
+|:---------- | ---------- |:------------:|
+| Row `1`    | Column `2` |              |
+| *Row* 2    | **Row** 2  | Column ``3`` |
+\end{verbatim}
+\begin{quote}
+\textbf{note}
+
+Note
+
+As illustrated in the above example each column of \texttt{|} characters must be aligned vertically.
+
+A \texttt{:} character on either end of a column's header separator (the row containing \texttt{-} characters) specifies whether the row is left-aligned, right-aligned, or (when \texttt{:} appears on both ends) center-aligned. Providing no \texttt{:} characters will default to right-aligning the column.
+
+\end{quote}
+\subsubsection{Admonitions}
+Specially formatted blocks, known as admonitions, can be used to highlight particular remarks. They can be defined using the following \texttt{!!!} syntax:
+
+\begin{verbatim}
+!!! note
+
+    This is the content of the note.
+
+!!! warning "Beware!"
+
+    And this is another one.
+
+    This warning admonition has a custom title: `"Beware!"`.
+\end{verbatim}
+The type of the admonition can be any word, but some types produce special styling, namely (in order of decreasing severity): \texttt{danger}, \texttt{warning}, \texttt{info}/\texttt{note}, and \texttt{tip}.
+
+A custom title for the box can be provided as a string (in double quotes) after the admonition type. If no title text is specified after the admonition type, then the title used will be the type of the block, i.e. \texttt{"Note"} in the case of the \texttt{note} admonition.
+
+Admonitions, like most other toplevel elements, can contain other toplevel elements.
+
+\subsection{Markdown Syntax Extensions}
+Julia's markdown supports interpolation in a very similar way to basic string literals, with the difference that it will store the object itself in the Markdown tree (as opposed to converting it to a string). When the Markdown content is rendered the usual \texttt{show} methods will be called, and these can be overridden as usual. This design allows the Markdown to be extended with arbitrarily complex features (such as references) without cluttering the basic syntax.
+
+In principle, the Markdown parser itself can also be arbitrarily extended by packages, or an entirely custom flavour of Markdown can be used, but this should generally be unnecessary.
+
