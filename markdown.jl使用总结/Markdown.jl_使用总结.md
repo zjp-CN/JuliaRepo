@@ -2,7 +2,6 @@
 <div class="toc"><ul class="toc-item"><li><span><a href="#从-docstring-开始" data-toc-modified-id="从-docstring-开始-1"><span class="toc-item-num">1&nbsp;&nbsp;</span>从 docstring 开始</a></span></li><li><span><a href="#利用-@doc-进行注释" data-toc-modified-id="利用-@doc-进行注释-2"><span class="toc-item-num">2&nbsp;&nbsp;</span>利用 @doc 进行注释</a></span></li><li><span><a href="#实现-MD-实例:-从字符串到-MD-对象" data-toc-modified-id="实现-MD-实例:-从字符串到-MD-对象-3"><span class="toc-item-num">3&nbsp;&nbsp;</span>实现 MD 实例: 从字符串到 MD 对象</a></span><ul class="toc-item"><li><span><a href="#用宏和函数解析-markdown-字符串" data-toc-modified-id="用宏和函数解析-markdown-字符串-3.1"><span class="toc-item-num">3.1&nbsp;&nbsp;</span>用宏和函数解析 markdown 字符串</a></span></li><li><span><a href="#函数式编程组建-markdown-结构" data-toc-modified-id="函数式编程组建-markdown-结构-3.2"><span class="toc-item-num">3.2&nbsp;&nbsp;</span>函数式编程组建 markdown 结构</a></span></li></ul></li><li><span><a href="#MD-对象转化成-String" data-toc-modified-id="MD-对象转化成-String-4"><span class="toc-item-num">4&nbsp;&nbsp;</span>MD 对象转化成 String</a></span></li><li><span><a href="#实现文档类型转化:-md-文件-转化成-html-文件和-tex-文件" data-toc-modified-id="实现文档类型转化:-md-文件-转化成-html-文件和-tex-文件-5"><span class="toc-item-num">5&nbsp;&nbsp;</span>实现文档类型转化: md 文件 转化成 html 文件和 tex 文件</a></span></li></ul></div>
 
 
-
 Julia 的标准库 `Markdown.jl` 可灵活高效地解析 markdown, 从 Julia 0.4 版本开始, `Markdown.jl` 便成为 Julia 的基础库. 
 
 当我们从 REPL 进入帮助模式(按 `?` 键), 或者在 Jupyter Notebook 中使用 `?` 查看函数的帮助信息时, 丰富多彩的帮助文字背后即是 `Markdown.jl` 在发挥作用.
@@ -15,9 +14,9 @@ Julia 的标准库 `Markdown.jl` 可灵活高效地解析 markdown, 从 Julia 0.4 版本开始, `
 
 查看 `+` 的说明文档时, 你会发现字体、颜色、样式并不是唯一的，这是如何实现的呢
 
-![REPL_docstring](./REPL_docstring.png)
+![REPL_docstring](https://raw.githubusercontent.com/ZIP97/JuliaRepo/master/markdown.jl使用总结/REPL_docstring.png)
 
-![JN_docstring](./JN_docstring.png)
+![JN_docstring](https://raw.githubusercontent.com/ZIP97/JuliaRepo/master/markdown.jl使用总结/JN_docstring.png)
 
 >  要弄清楚这一点, 我们需要引入几个 macro 和 `MD` 这个函数
 
@@ -637,14 +636,14 @@ open(f->Markdown.html(f, mdInstance), "readme.html", "w")
 # open(f->Markdown.tohtml(f, mdInstance), "readme.html", "w")
 ```
 
-![转化html](./转化html.png)
+![转化html](https://raw.githubusercontent.com/ZIP97/JuliaRepo/master/markdown.jl使用总结/转化html.png)
 
 
 ```julia
 open(f->Markdown.latex(f, mdInstance), "readme.tex", "w")
 ```
 
-![转化tex](./转化tex.png)
+![转化tex](https://raw.githubusercontent.com/ZIP97/JuliaRepo/master/markdown.jl使用总结/转化tex.png)
 
 
 
@@ -655,3 +654,8 @@ open(f->Markdown.latex(f, mdInstance), "readme.tex", "w")
 > 3. 国外博客 *MonthOfJulia Day 36: Markdown*: https://www.juliabloggers.com/monthofjulia-day-36-markdown/
 > 4. markdown 语法中文介绍: http://www.markdown.cn/
 > 5. markdown 语法 cheatsheet: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
+
+
+
+<div style="color:#7a7777; font-style:italic; background: #fffac6; border-radius: 25px; padding: 20px; box-shadow: 10px 10px 5px grey;">本文 jupyter 版本 : <a href="https://github.com/ZIP97/JuliaRepo/blob/master/markdown.jl使用总结/Markdown.jl 使用总结.ipynb">https://github.com/ZIP97/JuliaRepo/blob/master/markdown.jl使用总结/Markdown.jl 使用总结.ipynb</div>
+
